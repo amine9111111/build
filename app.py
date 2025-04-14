@@ -7,6 +7,13 @@ API_KEY = os.getenv("DEEPWOKEN_API_KEY")  # Récupérer la clé API depuis les s
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-70b-8192"
 
+
+# Vérifier si la clé API est présente
+if not API_KEY:
+    st.error("La clé API n'a pas été trouvée.")
+else:
+    st.write("Clé API trouvée et valide !")
+    
 # === Fonction de validation et correction des stats ===
 def validate_and_correct_stats(str_, fort, agi, intel, will, cha, weapon, element, style):
     corrections = []

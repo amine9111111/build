@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 
@@ -5,7 +6,6 @@ import requests
 API_KEY = os.getenv("DEEPWOKEN_API_KEY")  # Récupérer la clé API depuis les secrets GitHub
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-70b-8192"
-
 
 # === Fonction de validation et correction des stats ===
 def validate_and_correct_stats(str_, fort, agi, intel, will, cha, weapon, element, style):

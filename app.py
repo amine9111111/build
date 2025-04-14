@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # === Config ===
-API_KEY = "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"
+API_KEY = ""
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-70b-8192"
 

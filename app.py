@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 
-
 # === Config ===
 API_KEY = os.getenv("DEEPWOKEN_API_KEY")  # Récupérer la clé API depuis les secrets GitHub
 API_URL = "https://api.groq.com/openai/v1/chat/completions"

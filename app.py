@@ -1,21 +1,12 @@
-import os
 import streamlit as st
 import requests
+import os  # Importation nécessaire pour os.getenv()
 
 # === Config ===
-# Récupérer la clé API depuis les secrets
-API_KEY = os.getenv("DEEPWOKEN_API_KEY")
-  # Récupérer la clé API depuis les secrets GitHub
+API_KEY = st.secrets["DEEPWOKEN_API_KEY"]  # Utilisation des secrets Streamlit pour récupérer la clé API
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-70b-8192"
 
-
-# Vérifier si la clé API est présente
-if not API_KEY:
-    st.error("La clé API n'a pas été trouvée.")
-else:
-    st.write("Clé API trouvée et valide !")
-    
 # === Fonction de validation et correction des stats ===
 def validate_and_correct_stats(str_, fort, agi, intel, will, cha, weapon, element, style):
     corrections = []
@@ -75,6 +66,7 @@ st.title("🧠 Générateur de Build PVE - Deepwoken")
 
 st.markdown("Remplis les infos ci-dessous et l'IA générera un build PVE 🔥")
 
+# Sélection des paramètres
 race = st.selectbox("Race", [
     "Adret", "Ganymede", "Capra", "Khan", "Vesperian", "Lightborn",
     "Canor", "Felinor", "Etrean", "Gremor", "Chimeborn"
@@ -160,4 +152,4 @@ Réponds en français, de façon claire et structurée.
             st.markdown("### 🔧 Build généré :")
             st.markdown(build)
         else:
-            st.error("Erreur API : " + response.text)
+            st.error(f"Erreur API : {response.status_code}, {response.text}")

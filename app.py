@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-import os  # Importation nécessaire pour os.getenv()
+import os
 
 # === Config ===
 API_KEY = st.secrets["DEEPWOKEN_API_KEY"]  # Utilisation des secrets Streamlit pour récupérer la clé API
@@ -66,7 +66,6 @@ st.title("🧠 Générateur de Build PVE - Deepwoken")
 
 st.markdown("Remplis les infos ci-dessous et l'IA générera un build PVE 🔥")
 
-# Sélection des paramètres
 race = st.selectbox("Race", [
     "Adret", "Ganymede", "Capra", "Khan", "Vesperian", "Lightborn",
     "Canor", "Felinor", "Etrean", "Gremor", "Chimeborn"
@@ -152,4 +151,4 @@ Réponds en français, de façon claire et structurée.
             st.markdown("### 🔧 Build généré :")
             st.markdown(build)
         else:
-            st.error(f"Erreur API : {response.status_code}, {response.text}")
+            st.error("Erreur API : " + response.text)

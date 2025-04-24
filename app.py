@@ -1,9 +1,7 @@
 import streamlit as st
 import requests
-import os
 
 # === Config ===
-API_KEY = st.secrets["DEEPWOKEN_API_KEY"]  # Utilisation des secrets Streamlit pour récupérer la clé API
 API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-70b-8192"
 
@@ -112,6 +110,9 @@ if submit:
         will = corrected_stats['Willpower']
         cha = corrected_stats['Charisma']
 
+        # Récupération de la clé API depuis les secrets Streamlit
+        API_KEY = st.secrets["DEEPWOKEN_API_KEY"]
+
         # Appel API IA
         messages = [
             {"role": "system", "content": "Tu es un expert en builds Deepwoken. Tu aides les joueurs à créer des builds PVE optimisés."},
@@ -136,19 +137,23 @@ Réponds en français, de façon claire et structurée.
 """}
         ]
 
-        response = requests.post(
-            API_URL,
-            headers={"Authorization": f"Bearer {API_KEY}"},
-            json={
-                "model": MODEL,
-                "messages": messages,
-                "temperature": 0.7
-            }
-        )
+        try:
+            response = requests.post(
+                API_URL,
+                headers={"Authorization": f"Bearer {API_KEY}"},
+                json={
+                    "model": MODEL,
+                    "messages": messages,
+                    "temperature": 0.7
+                }
+            )
+            response.raise_for_status()  # Lève une exception pour les codes d'erreur HTTP
 
-        if response.status_code == 200:
             build = response.json()["choices"][0]["message"]["content"]
             st.markdown("### 🔧 Build généré :")
             st.markdown(build)
-        else:
-            st.error("Erreur API : " + response.text)
+
+        except requests.exceptions.RequestException as e:
+            st.error(f"Erreur lors de l'appel à l'API Groq : {e}")
+        except (KeyError, ValueError) as e:
+            st.error(f"Erreur lors du traitement de la réponse de l'API : {e}")
